@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState} from 'react';
 import {
   View,
@@ -9,6 +10,32 @@ import {
 } from 'react-native';
 
 const RegisterScreen = ({navigation}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleRegister = AsyncStorage () => {
+    
+    if(!email.endsWhith('@gmail.com')){
+      Alert.alert('Email Harus mengandung @gmail.com')
+      return;
+    }
+
+    try {
+      const dataBaru = {email,password};
+      await AsyncStorage.setItem('user', JSON.stringify('dataBaru'))
+      Alert.alert('Regiter Berhasil')
+      navigation.goBack();
+    }catch (error){
+      console.log(error);
+      Alert.alert('Gagal Meyimpan Data');
+    }
+
+    
+
+    Alert.alert('Regoster berhasil')
+    Navigation.goBack();
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Register</Text>
@@ -23,19 +50,21 @@ const RegisterScreen = ({navigation}) => {
         placeholder="Email"
         placeholderTextColor="#000"
         style={styles.input}
+        value={email}
+        onChangeText={setEmail}
         keyboardType="email-address"
       />
 
       <TextInput
         placeholder="Password"
         placeholderTextColor="#000"
+        value={password}
+        onChangeText={setPassword}
         style={styles.input}
       />
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('LoginScreen')}>
-        <Text style={styles.buttonText}>Daftar</Text>
+      <TouchableOpacity style={styles.button} onPress={handleRegister}>
+        <Text style={ styles.buttonText}>Daftar</Text>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => navigation.goBack()}>

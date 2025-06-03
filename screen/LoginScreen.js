@@ -10,6 +10,33 @@ import {
 } from 'react-native';
 
 const LoginScreen = ({navigation}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('')
+  
+  const handleLogin = Async () => {
+
+    if(!email.endsWhith('@gmail.com')){
+      Alert.alert('Email Harus mengandung @gmail.com')
+      return;
+    }
+
+    try{
+      const storedata = await AsyncStorage.getItem('user', JSON.parse(storedata))
+      const parsedata = parsedata? JSON.parse('user') : null;
+
+      if(parsedata && parsedata.email === emal && parsedata.password === password){
+        Alert.alert('Login Berhasil');
+        return;
+      } else {
+        Alert.alert('email dan password salah');
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Perlu Registerv ulang');  
+    }
+  };
+
 
   return (
     <View style={styles.container}>
